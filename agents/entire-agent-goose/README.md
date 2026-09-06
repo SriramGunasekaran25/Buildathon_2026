@@ -51,3 +51,20 @@ the repo's `.entire/settings.json`:
 `scripts/verify-goose.sh` wires a capture plugin into a throwaway probe
 workspace and runs a headless `goose run -t` to capture real hook payloads.
 It never modifies global goose config.
+
+## Optional Databricks checkpoint export
+
+Leave Databricks unset for now if you do not want to wire credentials yet.
+When all of the variables below are set, this adapter mirrors normalized
+Entire session context into Databricks:
+
+- `ENTIRE_DATABRICKS_HOST`
+- `ENTIRE_DATABRICKS_TOKEN`
+- `ENTIRE_DATABRICKS_WAREHOUSE_ID`
+- `ENTIRE_DATABRICKS_CATALOG`
+- `ENTIRE_DATABRICKS_SCHEMA`
+
+Each lifecycle event Entire captures can then write a row into the Delta table
+`<catalog>.<schema>.entire_agent_checkpoints`, including the Entire repo path,
+session id, prompt/summary, transcript location, branch/commit when available,
+and modified file list.

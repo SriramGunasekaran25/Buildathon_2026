@@ -72,44 +72,52 @@ func (a *Agent) ParseHook(hookName string, input []byte) (*protocol.EventJSON, e
 		// Best effort: the session row exists by SessionStart, but a failed
 		// export must not block the session from starting.
 		_ = a.exportSession(sessionID, sessionRef)
-		return &protocol.EventJSON{
+		event := &protocol.EventJSON{
 			Type:       1,
 			SessionID:  sessionID,
 			SessionRef: sessionRef,
 			Model:      modelFromSessionRef(sessionRef),
 			Timestamp:  now,
-		}, nil
+		}
+		a.annotateDatabricksExport(event, payload)
+		return event, nil
 
 	case HookNameUserPromptSubmit:
-		return &protocol.EventJSON{
+		event := &protocol.EventJSON{
 			Type:       2,
 			SessionID:  sessionID,
 			SessionRef: sessionRef,
 			Prompt:     payload.Message,
 			Model:      modelFromSessionRef(sessionRef),
 			Timestamp:  now,
-		}, nil
+		}
+		a.annotateDatabricksExport(event, payload)
+		return event, nil
 
 	case HookNameStop:
 		// Refresh the transcript for checkpointing, but best-effort: Entire
 		// calls prepare-transcript before reading it, which re-exports.
 		_ = a.exportSession(sessionID, sessionRef)
-		return &protocol.EventJSON{
+		event := &protocol.EventJSON{
 			Type:       3,
 			SessionID:  sessionID,
 			SessionRef: sessionRef,
 			Model:      modelFromSessionRef(sessionRef),
 			Timestamp:  now,
-		}, nil
+		}
+		a.annotateDatabricksExport(event, payload)
+		return event, nil
 
 	case HookNameSessionEnd:
 		_ = a.exportSession(sessionID, sessionRef)
-		return &protocol.EventJSON{
+		event := &protocol.EventJSON{
 			Type:       5,
 			SessionID:  sessionID,
 			SessionRef: sessionRef,
 			Timestamp:  now,
-		}, nil
+		}
+		a.annotateDatabricksExport(event, payload)
+		return event, nil
 
 	default:
 		return nil, nil

@@ -20,7 +20,8 @@ const (
 )
 
 type Agent struct {
-	CommandRunner CommandRunner
+	CommandRunner      CommandRunner
+	CheckpointExporter CheckpointExporter
 }
 
 func New() *Agent {

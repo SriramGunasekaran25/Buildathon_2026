@@ -22,6 +22,7 @@ External agents communicate with Entire CLI via subcommands that accept and retu
 | [Grok Build](agents/entire-agent-grok/) | `agents/entire-agent-grok/` | Implemented — hooks + transcript analysis + compact transcripts |
 | [Oh My Pi](agents/entire-agent-omp/) | `agents/entire-agent-omp/` | Implemented — hooks + transcript analysis + compact transcripts |
 | [Kilo](agents/entire-agent-kilo/) | `agents/entire-agent-kilo/` | Implemented (preview) — hooks + transcript analysis + token calculation + compact transcripts |
+| [Cursor Agent](agents/entire-agent-cursor/) | `agents/entire-agent-cursor/` | Implemented (preview) — hooks + sidecar transcript analysis + compact transcripts + optional Databricks checkpoint export |
 
 See each agent's own README for setup and usage instructions.
 
@@ -153,6 +154,7 @@ agents/                          # Standalone external agent projects
   entire-agent-qwen/             # Qwen Code agent (Go binary)
   entire-agent-omp/              # Oh My Pi agent (Go binary)
   entire-agent-kilo/             # Kilo agent (Go binary)
+  entire-agent-cursor/           # Cursor Agent (Go binary; Databricks checkpoint export)
 e2e/                             # Lifecycle integration harness
 .github/workflows/               # CI, including protocol compliance via external-agents-tests
 .claude/skills/entire-external-agent/  # Skill files (research, test-writer, implementer)
